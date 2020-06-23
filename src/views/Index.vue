@@ -1,0 +1,146 @@
+<template>
+  <div>
+    <!--banner-->
+    <div class="banner">
+      <!-- 练习：编写banner的html和css-->
+      <!-- 图片列表-->
+      <transition-group tag="ul" name="slide-fade">
+        <li v-for="(item,index) in 4" :key="index" :class="{'banner-show':cur==item}" v-show="item==cur">
+          <a href="#" class="link"></a>
+        </li>
+      </transition-group>
+      <!-- 左右箭头-->
+      <span class="cut prev" @click="prev"></span>
+      <span class="cut next" @click="next"></span>
+      <!-- 小圆点指示器-->
+      <div class="indicator">
+        <a v-for="(item,index) in 4" :key="index" :class="{cur:cur==item}" @click="cur=item"></a>
+      </div>
+    </div>
+    <!--main-->
+    <div class="main container">
+      <div class="ind_con1">
+        <h2 class="title">
+          <a href="#" class="more">more</a>净美仕产品
+        </h2>
+        <ul class="clearfloat">
+          <li>
+            <a href="#" class="link">
+              <img src="../assets/images/01.jpg" alt />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="link">
+              <img src="../assets/images/02.jpg" alt />
+            </a>
+          </li>
+          <li>
+            <a href="#" class="link">
+              <img src="../assets/images/03.jpg" alt />
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="ind_con2 clearfloat">
+        <div class="ind_about">
+          <h2 class="title">
+            <a href="#" class="more">more</a>关于净美仕
+          </h2>
+          <p>
+            北京净美仕环境科技有限公司自诞生起一直关注人类呼吸健康的问题，并专注于室内空气质量的研究与改善。2003年，非典来袭，环境安全威胁到了每个人的生命，全国陷入一片恐慌。净美仕肩负着为人类创造健康安全生活环境的使命应运而生。2012年7月，亿朗以“净美仕(Mfresh)”为品牌重塑，以崭新的面貌屹立在净化行业。
+            <a
+              href="#"
+            >查看更多</a>
+          </p>
+        </div>
+        <div class="ind_news">
+          <h2 class="title">
+            <a href="#" class="more">more</a>公司动态
+          </h2>
+          <ul>
+            <li>
+              <span>2016-02-21</span>
+              <a href>空气净化器要逆天？ “玫瑰金”“土豪金”齐上阵</a>
+            </li>
+            <li>
+              <span>2016-02-21</span>
+              <a href>净美仕新风净化系统 助力校园新风行动</a>
+            </li>
+            <li>
+              <span>2016-02-21</span>
+              <a href>全国新风行动全面启动 助推净美仕战略升级</a>
+            </li>
+            <li>
+              <span>2016-02-21</span>
+              <a href>智能空气净化器翻盘：净美仕能否领衔?</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      cur:1  //cur当前是第几张，默认是为1，标识当前为第一张
+    }
+  },
+  methods: {
+   next(){
+      this.cur++;
+      if(this.cur==5)this.cur=1;
+   },
+   prev(){
+     this.cur--;
+     if(this.cur==0)this.cur=4;
+   }
+  },
+  mounted() {
+    this.timer=setInterval(()=>{
+      this.next();
+    },3000);
+  },
+  // 组件销毁时，关闭定时器
+  beforeDestroy(){
+    clearInterval(this.timer);
+  }
+};
+</script>
+
+<style scoped>
+/* scoped：有限使用当前文件中的样式 */
+/* 此处使用的css才会被webpack打包 */
+.banner-show{
+  display: block;
+  z-index: 20;
+}
+.banner li:nth-child(1) {
+  background: url(../assets/images/banner_01.jpg) center 0 no-repeat;
+}
+.banner li:nth-child(2) {
+  background: url(../assets/images/banner_02.jpg) center 0 no-repeat;
+}
+.banner li:nth-child(3){
+  background: url(../assets/images/banner_03.jpg) center 0 no-repeat;
+}
+.banner li:nth-child(4){
+  background: url(../assets/images/banner_04.jpg) center 0 no-repeat;
+}
+
+/* 可以设置不同的进入和离开动画 */
+/* 设置持续时间和动画函数 */
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateX(10px);
+  opacity: 0;
+}
+</style>
